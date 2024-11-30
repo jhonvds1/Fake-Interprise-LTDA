@@ -7,10 +7,10 @@ namespace Pereciveis;
 
 public class Perecivel : Produto{
     private Data dataValidade;
-    private bool organico;
+    private bool? organico;
     private string? ingredientes; // ARRUMAR O NULL AQUIIII !!!!!!!!!
 
-    public Perecivel(int codigo, string descricao, string fabricante, Data dataValidade, bool organico, string ingredientes) : base(codigo, descricao, fabricante){
+    public Perecivel(int codigo, string descricao, string fabricante, Data dataValidade, bool? organico, string ingredientes) : base(codigo, descricao, fabricante){
         this.ingredientes= ingredientes;
         this.organico=organico;
         this.dataValidade=dataValidade;

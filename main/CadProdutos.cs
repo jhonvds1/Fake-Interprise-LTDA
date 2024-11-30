@@ -1,15 +1,17 @@
 using System;
 using Produtos;
 
+namespace CadastrosProdutos;
+
 public class CadProdutos{
-    Produto[]? cadastro; //ARUMARR NULL!!!!!!!!
+     private Produto[] cadastro = new Produto[100];//ARUMARR NULL!!!!!!!!
 
 
-    void insere(Produto prod){
-
+    public void Insere(Produto prod){
+        
     }
 
-    Produto GetProduto(int posicao){
+    public Produto GetProduto(int posicao){
         throw new Exception("Não foi possível retornar o produto."); //ARUMARR O RETORNO!!!!!
     }
 

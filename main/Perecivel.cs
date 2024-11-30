@@ -24,12 +24,15 @@ public class Perecivel : Produto{
     public int DiasateVencimento(Data dataref){
         DateTime validade = dataValidade.ParaDateTime();
         DateTime referencia = dataref.ParaDateTime();
-        TimeSpan diferenca = validade - referencia;
+        TimeSpan diferenca = referencia - validade;
         return diferenca.Days; 
     }
 
     public override void ExibirDetalhes(){
-        Console.WriteLine($"data de validade: {this.dataValidade} organico: {this.organico} ingredientes: {this.ingredientes} codigo: {this.codigo} descrição: {this.descricao} fabricante: {this.fabricante}");
+        DateTime dataval = dataValidade.ParaDateTime();
+        string datafinal = dataval.ToString("dd/MM/yyyy");
+
+       Console.WriteLine($"Codigo: {this.codigo}\nDescrição: {this.descricao}\nIngredientes: {this.ingredientes}\nOrgânico:{this.organico}\nData de validade: {datafinal}\nFabricante: {this.fabricante}");
     }
 
 

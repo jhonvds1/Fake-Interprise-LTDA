@@ -21,6 +21,7 @@ public class Duravel : Produto{
 
 
     public override void ExibirDetalhes(){
+        Console.WriteLine($"Codigo: {this.codigo}\nDescrição: {this.descricao}\nMaterial: {this.material}\nGarantia: {this.garantia}\nManutenção: {this.manutencao}\nFabricante: {this.fabricante}");
 
     }
 }

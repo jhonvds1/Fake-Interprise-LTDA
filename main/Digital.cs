@@ -18,7 +18,8 @@ public class Digital : Produto{
 
 
     public override void ExibirDetalhes(){
-    
+        Console.WriteLine($"Codigo: {this.codigo}\nDescrição: {this.descricao}\nLink: {this.link}\nTamanho: {this.tamanho}\nFormato: {this.formato}\nFabricante: {this.fabricante}");
+
     }
 }
 

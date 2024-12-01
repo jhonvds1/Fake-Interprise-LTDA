@@ -1,5 +1,7 @@
 using System;
 using Data_atual;
+using Digitais;
+using Duraveis;
 using Pereciveis;
 using Produtos;
 
@@ -24,5 +26,22 @@ public class CadProdutos{
         Produto produto = cadastro[posicao];
         return produto;
     }
+
+    public int GetCode(Produto produto){
+        if(produto is Perecivel){
+            Perecivel produtocast=(Perecivel)produto;
+            return produtocast.GetCode();
+        }
+        if(produto is Digital){
+            Digital produtocast=(Digital)produto;
+            return produtocast.GetCode();
+        }
+        if(produto is Duravel){
+            Duravel produtocast=(Duravel)produto;
+            return produtocast.GetCode();
+        }
+        return 0;
+    }
+    
 
 }

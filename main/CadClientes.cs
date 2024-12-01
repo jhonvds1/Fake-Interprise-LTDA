@@ -26,4 +26,8 @@ public class CadClientes{
         return cliente;
     }
 
+    public int GetCode(int posicao){
+        return cadastro[posicao].GetCode();
+    }
+
 }

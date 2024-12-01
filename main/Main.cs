@@ -11,6 +11,8 @@ using System.Dynamic;
 using Clientes;
 using CadsClientes;
 using Enderecos;
+using itensEstoque;
+using ESTOQUE;
 
 namespace Main;
 
@@ -19,6 +21,7 @@ public abstract class Master{
     {
         CadProdutos cadprodutos = new CadProdutos();
         CadClientes cadclientes = new CadClientes();
+        Estoque estoque = new Estoque();
         int produtoscadastrados=0;
         int clientesCadastrados=0;
         int escolha=-1;
@@ -449,12 +452,110 @@ public abstract class Master{
                     }
                     break;
                 case 6:
+                int quantidade;
+                int addprod=0;
+                int valor,code;
+                bool valido=false;                   
+                    do{
+                        do{
+                            Console.WriteLine("Digite o código do produto: ");
+                            entrada=Console.ReadLine();
+                            if(!int.TryParse(entrada, out codigo)){
+                                Console.WriteLine("Digite um código válido");
+                            }
+                        }while(!int.TryParse(entrada, out codigo));
+
+                        for(int i=0;i<produtoscadastrados;i++){
+                            if(cadprodutos.GetProduto(i) is Perecivel){
+                                code = cadprodutos.GetCode(cadprodutos.GetProduto(i));
+                                addprod=i;
+                            }
+                            if(cadprodutos.GetProduto(i) is Duravel){
+                                code = cadprodutos.GetCode(cadprodutos.GetProduto(i));
+                                addprod=i;
+                            }
+                            if(cadprodutos.GetProduto(i) is Digital){
+                                code = cadprodutos.GetCode(cadprodutos.GetProduto(i));
+                                addprod=i;
+                            }else{
+                                code=0; // Entra nunca
+                            }
+                            if(code==codigo){
+                                valido=true;
+                                break;
+                            }
+                        }
+                        if(!valido){
+                            Console.WriteLine("Código não encontrado!");
+                        }
+                    }while(!valido);
+                    Produto addProd = cadprodutos.GetProduto(addprod);
+                    do{
+                        Console.WriteLine("Digite a quantidade desse produto (Positivo para adicionar, Negativo para retirar): ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out quantidade)){
+                            Console.WriteLine("Digite uma quantidade válida");
+                        }
+                    }while(!int.TryParse(entrada, out quantidade));
+                    do{
+                        Console.WriteLine("Digite o valor desse produto: ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out valor)){
+                            Console.WriteLine("Digite uma valor válido");
+                        }
+                    }while(!int.TryParse(entrada, out valor));
+                    ItemEstoque additem = new ItemEstoque(addProd,quantidade,valor);
                     break;
                 case 7:
+                    bool validoCliente=false;
+                    string?[] partes = new string?[2];
+                    int codigoProduto;
+                    do{
+                        do{
+                            Console.WriteLine("Digite o código do cliente: ");
+                            entrada=Console.ReadLine();
+                            if(!int.TryParse(entrada, out codigo)){
+                                Console.WriteLine("Digite um código válido");
+                            }
+                        }while(!int.TryParse(entrada, out codigo));
+
+                        for(int i=0;i<clientesCadastrados;i++){
+                            if(cadclientes.GetCliente(i).GetCode() == codigo){
+                                code = cadclientes.GetCode(i);
+                            }else{
+                                code=-1;
+                            }
+                            if(code==codigo){
+                                validoCliente=true;
+                                break;
+                            }
+                        }
+                        if(!validoCliente){
+                            Console.WriteLine("Código não encontrado!");
+                        }
+                    }while(!validoCliente);
+            
+                    do{
+                        do{
+                            Console.WriteLine("Informe os itens vendidos(Código e quantidade separados por espaço):");
+                            entrada=Console.ReadLine();
+                            if(!string.IsNullOrEmpty(entrada)){
+                                partes = entrada.Split(' ');
+                            }else{
+                                Console.WriteLine("Digite uma entrada");
+                            }
+                        }while(!int.TryParse(partes[0], out codigoProduto) || !int.TryParse(partes[1], out quantidade));        
+                    }while(partes.Length <2);
+
+
+
+
+
                     break;
                 case 8:
                     break;
                 case 9:
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Digite uma opção entre 1 e 9");

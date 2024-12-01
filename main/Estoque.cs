@@ -1,16 +1,26 @@
 using System;
 using itensEstoque;
 
-public class Estoque{
+namespace ESTOQUE;
 
-    ItemEstoque[]? cadastro; // ARRUMAR NULL AQUI!!!!!!!
+public class Estoque{
+    protected int itensCadastrados=0;
+    protected ItemEstoque[] cadastro = new ItemEstoque[10000]; // ARRUMAR NULL AQUI!!!!!!!
 
     public void insere(ItemEstoque item){
-
+        this.cadastro[itensCadastrados]=item;
+        itensCadastrados++;
     }
 
     public ItemEstoque GetItem(int posicao){
-        throw new Exception("Não foi possível retornar o produto."); //ARUMARR O RETORNO!!!!!
+        if(posicao<0 || posicao>=cadastro.Length){
+             throw new ArgumentOutOfRangeException("Posição inexistente");
+        }
+        if (cadastro == null){
+            throw new InvalidOperationException("Não há produto na posição especificada.");
+        }
+        ItemEstoque produto = cadastro[posicao];
+        return produto;
     }
 
 }

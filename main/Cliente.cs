@@ -28,4 +28,8 @@ public class Cliente{
         this.endereco.ExibirDetalhes();
     }
 
+    public int GetCode(){
+        return this.codigo;
+    }
+
 }

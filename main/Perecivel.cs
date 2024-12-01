@@ -24,6 +24,10 @@ public class Perecivel : Produto{
             return this.dataValidade.RetornarDias();
         }
 
+    
+    public int GetCode(){
+        return this.codigo;
+    }
 
 
     public override void ExibirDetalhes(){

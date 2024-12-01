@@ -2,15 +2,28 @@ using System;
 using Clientes;
 using Produtos;
 
+namespace CadsClientes;
+
 public class CadClientes{
-    Cliente[]? cadastro; // ARRUMAL NULL AQUI!!!
+    protected Cliente[] cadastro = new Cliente[100];
+    protected int clientesCadastrados=0;
 
     public void insere(Cliente cliente){
+        
+        this.cadastro[clientesCadastrados]=cliente;
+        clientesCadastrados++;
 
     }
 
-    Cliente GetCliente(int posicao){
-         throw new Exception("Não foi possível retornar o produto."); //ARUMARR O RETORNO!!!!!
+    public Cliente GetCliente(int posicao){
+        if(posicao<0 || posicao>=cadastro.Length){
+             throw new ArgumentOutOfRangeException("Posição inexistente");
+        }
+        if (cadastro == null){
+            throw new InvalidOperationException("Não há produto na posição especificada.");
+        }
+        Cliente cliente = cadastro[posicao];
+        return cliente;
     }
 
 }

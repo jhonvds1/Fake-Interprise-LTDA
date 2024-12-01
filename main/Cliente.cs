@@ -21,4 +21,11 @@ public class Cliente{
         this.foneRes=foneres;
     }
 
+    public void ExibirDetalhes(){
+        DateTime dataval = nascimento.ParaDateTime();
+        string datafinal = dataval.ToString("dd/MM/yyyy");
+        Console.WriteLine($"Codigo: {this.codigo}\nNome: {this.nome}\nData de nascimento: {datafinal}\nTelefone Residencial: {this.foneRes}\nTelefone Celular: {this.foneCelular}");
+        this.endereco.ExibirDetalhes();
+    }
+
 }

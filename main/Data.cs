@@ -15,6 +15,15 @@ public class Data{
         return new DateTime(this.ano, this.mes, this.dia);
     }
 
+    public int RetornarDias(){
+        DateTime dataAtual = DateTime.Now;
+        DateTime validade = ParaDateTime();
+        TimeSpan diferenca = validade-dataAtual;
+        return diferenca.Days;
+        
+
+    }
+
     public bool Valida(){
 
         try{

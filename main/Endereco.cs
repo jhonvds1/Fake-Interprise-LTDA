@@ -21,4 +21,8 @@ public class Endereco{
         this.cep=cep;
     }
 
+    public void ExibirDetalhes(){
+        Console.WriteLine($"UF: {this.uf}\nCidade: {this.cidade}\nBairro: {this.bairro}\nNúmero: {this.numero}\nComplemento: {this.complemento}\nRua: {this.rua}\nCEP: {this.cep}");
+    }
+
 }

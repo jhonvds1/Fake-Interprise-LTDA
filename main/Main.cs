@@ -8,6 +8,9 @@ using System.Threading;
 using CadastrosProdutos;
 using System.Xml.Serialization;
 using System.Dynamic;
+using Clientes;
+using CadsClientes;
+using Enderecos;
 
 namespace Main;
 
@@ -15,12 +18,14 @@ public abstract class Master{
     static void Main(string[] args)
     {
         CadProdutos cadprodutos = new CadProdutos();
+        CadClientes cadclientes = new CadClientes();
         int produtoscadastrados=0;
+        int clientesCadastrados=0;
         int escolha=-1;
         do{
             Console.WriteLine("=================Fake Interprise=================");
             Console.WriteLine("Digite 1 para cadastrar um produto");
-            Console.WriteLine("Digite 2 para Listas os produtos");
+            Console.WriteLine("Digite 2 para Listar os produtos");
             Console.WriteLine("Digite 3 para ver produtos vencendo");
             Console.WriteLine("Digite 4 para cadastrar um cliente");
             Console.WriteLine("Digite 5 para Listar os clientes");
@@ -140,7 +145,7 @@ public abstract class Master{
                                 }
                                 break;
                             case 2:
-                                string ingredientes;
+                                string? ingredientes;
                                 bool? organico=null;
                                 Console.WriteLine("Digite o código do produto");
                                 entrada = Console.ReadLine();
@@ -304,15 +309,144 @@ public abstract class Master{
 
                         }
                     }while(escolhap!=4);
-
                     break;
                 case 2:
+                    for(int i=0; i<produtoscadastrados;i++){
+                        Produto produto = cadprodutos.GetProduto(i);
+                        if(produto is Duravel){
+                            produto.ExibirDetalhes();
+                        }
+                    }
+                    for(int i=0; i<produtoscadastrados;i++){
+                        Produto produto = cadprodutos.GetProduto(i);
+                        if(produto is Perecivel){
+                            produto.ExibirDetalhes();
+                        }
+                    }
+
+                    for(int i=0; i<produtoscadastrados;i++){
+                        Produto produto = cadprodutos.GetProduto(i);
+                        if(produto is Digital){
+                            produto.ExibirDetalhes();
+                        }
+                    }
                     break;
                 case 3:
+                    int diavencimento=-1;
+                    do{
+                        Console.WriteLine("Digite o dia: ");
+                        entrada=Console.ReadLine();
+                        if(!string.IsNullOrEmpty(entrada)){
+                            try{
+                            diavencimento = int.Parse(entrada);
+                            }catch(FormatException){
+                                Console.WriteLine("Digite o dia\n");
+                                Thread.Sleep(1000);
+                            }
+                        }else{
+                            Console.WriteLine("Digite o dia");
+                            Thread.Sleep(1000);
+                        }
+                    }while(diavencimento==-1);
+                    for(int i=0;i<produtoscadastrados;i++){
+                        Produto produto = cadprodutos.GetProduto(i);
+                        if(produto is Perecivel perecivel){
+                            if(perecivel.DiasVencimento()<diavencimento){
+                                perecivel.ExibirDetalhes();
+                            }
+                        }
+                    }
                     break;
                 case 4:
+                    codigo=-1;
+                    int numero;
+                    string? nome,foneRes,foneCel,rua,complemento,bairro,cep,cidade,uf;
+                    do{
+                        Console.WriteLine("Digite o código");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out codigo)){
+                            Console.WriteLine("Digite um código em inteiros válido");
+                        }
+                    }while(!int.TryParse(entrada, out codigo));
+                    do{
+                        Console.WriteLine("Digite o seu dia de nascimento: ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out dia)){
+                            Console.WriteLine("Digite um dia válido");
+                        }
+                    }while(!int.TryParse(entrada, out dia));
+                    do{
+                        Console.WriteLine("Digite o seu mes de nascimento: ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out mes)){
+                            Console.WriteLine("Digite um mes válido");
+                        }
+                    }while(!int.TryParse(entrada, out mes));
+                    do{
+                        Console.WriteLine("Digite o seu ano de nascimento: ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out ano)){
+                            Console.WriteLine("Digite um ano válido");
+                        }
+                    }while(!int.TryParse(entrada, out ano));                
+                    Data data3 = new Data(dia,mes,ano);
+                    do{
+                        Console.WriteLine("Digite o nome");
+                        nome= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(nome));
+                    do{
+                        Console.WriteLine("Digite a rua");
+                        rua= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(rua));
+                    do{
+                        Console.WriteLine("Digite o numero: ");
+                        entrada=Console.ReadLine();
+                        if(!int.TryParse(entrada, out numero)){
+                            Console.WriteLine("Digite um numero válido");
+                        }
+                    }while(!int.TryParse(entrada, out numero));
+                    do{
+                        Console.WriteLine("Digite o complemento");
+                        complemento= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(complemento));
+                    do{
+                        Console.WriteLine("Digite o bairro");
+                        bairro= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(bairro));
+                   do{
+                        Console.WriteLine("Digite o cep");
+                        cep= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(cep));
+                    do{
+                        Console.WriteLine("Digite a cidade");
+                        cidade= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(cidade));
+                    do{
+                        Console.WriteLine("Digite o uf");
+                        uf= Console.ReadLine();
+                    }while(string.IsNullOrEmpty(uf));
+                    Endereco endereco = new Endereco(uf,cidade,bairro,complemento,numero,rua,cep);
+                    do{
+                        Console.WriteLine("Digite o telefone residencial");
+                        foneRes=Console.ReadLine();
+                    }while(string.IsNullOrEmpty(foneRes));
+                    do{
+                        Console.WriteLine("Digite o telefone celular");
+                        foneCel=Console.ReadLine();
+                    }while(string.IsNullOrEmpty(foneCel));
+                    Cliente cliente = new Cliente(codigo, nome,data3,endereco,foneRes,foneCel);
+                    if(clientesCadastrados<=100){
+                        cadclientes.insere(cliente);
+                        clientesCadastrados++;
+                    }else{
+                        Console.WriteLine("Não é possível cadastrar mais clientes");
+                    }
                     break;
                 case 5:
+                    for(int i=0; i<clientesCadastrados;i++){
+                        Cliente add = cadclientes.GetCliente(i);
+                        add.ExibirDetalhes();
+                    }
                     break;
                 case 6:
                     break;

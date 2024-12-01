@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Reflection.Metadata;
 using Data_atual;
 using Produtos;
@@ -19,14 +20,11 @@ public class Perecivel : Produto{
         this.fabricante=fabricante;
     }
 
+    public int DiasVencimento(){            
+            return this.dataValidade.RetornarDias();
+        }
 
 
-    public int DiasateVencimento(Data dataref){
-        DateTime validade = dataValidade.ParaDateTime();
-        DateTime referencia = dataref.ParaDateTime();
-        TimeSpan diferenca = referencia - validade;
-        return diferenca.Days; 
-    }
 
     public override void ExibirDetalhes(){
         DateTime dataval = dataValidade.ParaDateTime();

@@ -13,6 +13,10 @@ using CadsClientes;
 using Enderecos;
 using itensEstoque;
 using ESTOQUE;
+using System.Data;
+using CadsVendas;
+using ItensVenda;
+using Vendas;
 
 namespace Main;
 
@@ -21,7 +25,11 @@ public abstract class Master{
     {
         CadProdutos cadprodutos = new CadProdutos();
         CadClientes cadclientes = new CadClientes();
+        CadVendas cadvendas = new CadVendas();
         Estoque estoque = new Estoque();
+        int vendasFeitas=0;
+        
+        
         int produtoscadastrados=0;
         int clientesCadastrados=0;
         int escolha=-1;
@@ -193,55 +201,62 @@ public abstract class Master{
                                     Console.WriteLine("Digite os ingredientes (Separados por vírgula)");
                                     ingredientes=Console.ReadLine();
                                 }while(string.IsNullOrEmpty(ingredientes));
-                                
+                                bool valida=false;
+                                Data data;
                                 do{
-                                    Console.WriteLine("Digite o dia que o produto vence: ");
-                                    entrada=Console.ReadLine();
-                                    if(!string.IsNullOrEmpty(entrada)){
-                                        try{
-                                        dia = int.Parse(entrada);
-                                        }catch(FormatException){
-                                            Console.WriteLine("Digite o dia\n");
+                                    do{
+                                        Console.WriteLine("Digite o dia que o produto vence: ");
+                                        entrada=Console.ReadLine();
+                                        if(!string.IsNullOrEmpty(entrada)){
+                                            try{
+                                            dia = int.Parse(entrada);
+                                            }catch(FormatException){
+                                                Console.WriteLine("Digite o dia\n");
+                                                Thread.Sleep(1000);
+                                            }
+                                        }else{
+                                            Console.WriteLine("Digite o dia");
                                             Thread.Sleep(1000);
                                         }
-                                    }else{
-                                        Console.WriteLine("Digite o dia");
-                                        Thread.Sleep(1000);
-                                    }
-                                }while(dia==-1);
+                                    }while(dia==-1);
 
-                                do{
-                                    Console.WriteLine("Digite o mês que o produte vence: ");
-                                    entrada=Console.ReadLine();
-                                    if(!string.IsNullOrEmpty(entrada)){
-                                        try{
-                                        mes = int.Parse(entrada);
-                                        }catch(FormatException){
-                                            Console.WriteLine("Digite o mes\n");
+                                    do{
+                                        Console.WriteLine("Digite o mês que o produte vence: ");
+                                        entrada=Console.ReadLine();
+                                        if(!string.IsNullOrEmpty(entrada)){
+                                            try{
+                                            mes = int.Parse(entrada);
+                                            }catch(FormatException){
+                                                Console.WriteLine("Digite o mes\n");
+                                                Thread.Sleep(1000);
+                                            }
+                                        }else{
+                                            Console.WriteLine("Digite o mes");
                                             Thread.Sleep(1000);
                                         }
-                                    }else{
-                                        Console.WriteLine("Digite o mes");
-                                        Thread.Sleep(1000);
-                                    }
-                                }while(mes==0.1);
+                                    }while(mes==0.1);
 
-                                do{
-                                    Console.WriteLine("Digite o ano que o produto vence: ");
-                                    entrada=Console.ReadLine();
-                                    if(!string.IsNullOrEmpty(entrada)){
-                                        try{
-                                        ano = int.Parse(entrada);
-                                        }catch(FormatException){
-                                            Console.WriteLine("Digite o ano\n");
+                                    do{
+                                        Console.WriteLine("Digite o ano que o produto vence: ");
+                                        entrada=Console.ReadLine();
+                                        if(!string.IsNullOrEmpty(entrada)){
+                                            try{
+                                            ano = int.Parse(entrada);
+                                            }catch(FormatException){
+                                                Console.WriteLine("Digite o ano\n");
+                                                Thread.Sleep(1000);
+                                            }
+                                        }else{
+                                            Console.WriteLine("Digite o ano");
                                             Thread.Sleep(1000);
                                         }
-                                    }else{
-                                        Console.WriteLine("Digite o ano");
-                                        Thread.Sleep(1000);
+                                    }while(ano==-0.1);
+                                    data = new Data(dia,mes,ano);
+                                    valida = data.Valida();
+                                    if(valida==false){
+                                        Console.WriteLine("Digite uma data válida!");
                                     }
-                                }while(ano==-0.1);
-                                Data data = new Data(dia,mes,ano);
+                                }while(!valida);
                                 Perecivel perecivel = new Perecivel(codigo,descricao,fabricante,data,organico,ingredientes);
                                 if(produtoscadastrados<=100){
                                     cadprodutos.Insere(perecivel);
@@ -307,7 +322,7 @@ public abstract class Master{
                                 }
                                 break;
                             default:
-                                Console.WriteLine("Digite uma opção entre 1 e 3");
+                                Console.WriteLine("Digite uma opção entre 1 e 4");
                                 break;
 
                         }
@@ -371,27 +386,34 @@ public abstract class Master{
                             Console.WriteLine("Digite um código em inteiros válido");
                         }
                     }while(!int.TryParse(entrada, out codigo));
+
+                    bool dataNas=false;
+                    Data verificarNas;
                     do{
-                        Console.WriteLine("Digite o seu dia de nascimento: ");
-                        entrada=Console.ReadLine();
-                        if(!int.TryParse(entrada, out dia)){
-                            Console.WriteLine("Digite um dia válido");
-                        }
-                    }while(!int.TryParse(entrada, out dia));
-                    do{
-                        Console.WriteLine("Digite o seu mes de nascimento: ");
-                        entrada=Console.ReadLine();
-                        if(!int.TryParse(entrada, out mes)){
-                            Console.WriteLine("Digite um mes válido");
-                        }
-                    }while(!int.TryParse(entrada, out mes));
-                    do{
-                        Console.WriteLine("Digite o seu ano de nascimento: ");
-                        entrada=Console.ReadLine();
-                        if(!int.TryParse(entrada, out ano)){
-                            Console.WriteLine("Digite um ano válido");
-                        }
-                    }while(!int.TryParse(entrada, out ano));                
+                        do{
+                            Console.WriteLine("Digite o seu dia de nascimento: ");
+                            entrada=Console.ReadLine();
+                            if(!int.TryParse(entrada, out dia)){
+                                Console.WriteLine("Digite um dia válido");
+                            }
+                        }while(!int.TryParse(entrada, out dia));
+                        do{
+                            Console.WriteLine("Digite o seu mes de nascimento: ");
+                            entrada=Console.ReadLine();
+                            if(!int.TryParse(entrada, out mes)){
+                                Console.WriteLine("Digite um mes válido");
+                            }
+                        }while(!int.TryParse(entrada, out mes));
+                        do{
+                            Console.WriteLine("Digite o seu ano de nascimento: ");
+                            entrada=Console.ReadLine();
+                            if(!int.TryParse(entrada, out ano)){
+                                Console.WriteLine("Digite um ano válido");
+                            }
+                        }while(!int.TryParse(entrada, out ano));
+                        verificarNas = new Data(dia,mes,ano);
+                        dataNas=verificarNas.Valida();  
+                    }while(!dataNas);              
                     Data data3 = new Data(dia,mes,ano);
                     do{
                         Console.WriteLine("Digite o nome");
@@ -510,6 +532,7 @@ public abstract class Master{
                     bool validoCliente=false;
                     string?[] partes = new string?[2];
                     int codigoProduto;
+                    LinkedList<double> valores = new LinkedList<double>();
                     do{
                         do{
                             Console.WriteLine("Digite o código do cliente: ");
@@ -535,24 +558,54 @@ public abstract class Master{
                         }
                     }while(!validoCliente);
             
+                char primeiraLetra='t';
+                do{
+                    string? resposta;
                     do{
                         do{
-                            Console.WriteLine("Informe os itens vendidos(Código e quantidade separados por espaço):");
-                            entrada=Console.ReadLine();
-                            if(!string.IsNullOrEmpty(entrada)){
-                                partes = entrada.Split(' ');
-                            }else{
-                                Console.WriteLine("Digite uma entrada");
+                            do{
+                                Console.WriteLine("Informe os itens vendidos(Código e quantidade separados por espaço):");
+                                entrada=Console.ReadLine();
+                                if(!string.IsNullOrEmpty(entrada)){
+                                    partes = entrada.Split(' ');
+                                }else{
+                                    Console.WriteLine("Digite uma entrada");
+                                }
+                            }while(!int.TryParse(partes[0], out codigoProduto) || !int.TryParse(partes[1], out quantidade));        
+                            if(quantidade<estoque.GetQuantidade(codigoProduto)){
+                                Console.WriteLine("Quantidade não disponível!");
                             }
-                        }while(!int.TryParse(partes[0], out codigoProduto) || !int.TryParse(partes[1], out quantidade));        
+                        }while(quantidade<estoque.GetQuantidade(codigoProduto));
                     }while(partes.Length <2);
-
-
-
-
-
+                    
+                    valores.AddFirst(quantidade*estoque.GetValor(codigoProduto));
+                    estoque.RemoverEstoque(quantidade,codigo);
+                    Produto produtoVendido = cadprodutos.GetProduto(codigo);
+                    ItemVenda addVenda = new ItemVenda(produtoVendido,quantidade,estoque.GetValor(codigoProduto));
+                    do{
+                        Console.WriteLine("Deseja adicionar mais um item? (sim ou nao)");
+                        resposta=Console.ReadLine();
+                        if(string.IsNullOrEmpty(resposta)){
+                            Console.WriteLine("Responda com sim ou nao");
+                        }
+                    }while(!string.IsNullOrEmpty(resposta));
+                    if(!string.IsNullOrEmpty(resposta)){
+                        primeiraLetra = resposta[0];
+                    }
+                }while(char.ToLower(primeiraLetra)=='s' || primeiraLetra=='t');
+                Cliente clienteComprador = cadclientes.GetClienteByCode(codigo);
+                double valorTotal=0;
+                foreach(double custo in valores){
+                    valorTotal+=custo;
+                }
+                DateTime dataAtual = DateTime.Now;
+                Data datafinal = new Data(dataAtual.Day,dataAtual.Month,dataAtual.Year);
+                Venda vendaFinal = new Venda(clienteComprador,new ItemVenda[10000],valorTotal,datafinal);
+                vendasFeitas++;
+                valores.Clear();
                     break;
                 case 8:
+                    cadvendas.ExibirVendas(vendasFeitas);
                     break;
                 case 9:
                     Environment.Exit(0);

@@ -18,5 +18,14 @@ public class Venda{
         this.dataVenda=data;
     }
 
+    public void ExibirVenda(int vendas){
+        Console.WriteLine($"Cliente: {this.cliente}");
+        for(int i=0;i<vendas;i++){
+            itens[i].ExibirVenda();
+        }
+        Console.WriteLine($"Valor total: {this.valorTotal}");
+        Console.WriteLine($"Data: {this.dataVenda.ParaDateTime()}");
+    }
+
 
 }

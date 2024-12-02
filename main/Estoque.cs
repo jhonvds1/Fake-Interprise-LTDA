@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using itensEstoque;
 
 namespace ESTOQUE;
@@ -21,6 +22,39 @@ public class Estoque{
         }
         ItemEstoque produto = cadastro[posicao];
         return produto;
+    }
+
+    public int GetQuantidade(int codigo){
+        int quantidade=0;
+        for(int i=0;i<itensCadastrados;i++){
+            if(cadastro[i].GetCodeProduto()==codigo){
+                quantidade = cadastro[i].GetQuantidade();
+            }
+        }
+        return quantidade;
+    }
+
+    public int GetItensCadastrados(){
+        return itensCadastrados;
+    }
+
+
+    public double GetValor(int codigo){
+        double valor=0;
+        for(int i=0;i<itensCadastrados;i++){
+            if(cadastro[i].GetCodeProduto()==codigo){
+                valor = cadastro[i].GetValor();
+            }
+        }
+        return valor;
+    }
+
+    public void RemoverEstoque(int quantidade, int codigo){
+        for(int i=0;i<itensCadastrados;i++){
+            if(cadastro[i].GetCodeProduto()==codigo){
+                cadastro[i].RemoverQuantidade(quantidade);
+            }
+        }
     }
 
 }

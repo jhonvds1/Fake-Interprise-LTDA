@@ -25,7 +25,6 @@ public class Data{
     }
 
     public bool Valida(){
-
         try{
             DateTime data = new DateTime(this.ano, this.mes, this.dia);
             return true;

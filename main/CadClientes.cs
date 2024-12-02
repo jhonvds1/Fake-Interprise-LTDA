@@ -30,4 +30,14 @@ public class CadClientes{
         return cadastro[posicao].GetCode();
     }
 
+    public Cliente GetClienteByCode(int code){
+        int cliente=0;
+        for(int i=0;i<clientesCadastrados;i++){
+            if(cadastro[i].GetCode()==code){
+                cliente=i;
+            }
+        }
+        return cadastro[cliente];
+    }
+
 }
